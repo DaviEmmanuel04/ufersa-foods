@@ -2,6 +2,7 @@ export interface IRecipeDB {
     id: string,
     userId: string,
     title: string,
+    likes: number,
     description: string,
     imageURL: string,
     ingredients: string,
@@ -13,6 +14,7 @@ export class Recipe {
         private id: string,
         private userId: string,
         private title: string,
+        private likes: number,
         private description: string,
         private imageURL: string,
         private ingredients: string,
@@ -37,6 +39,10 @@ export class Recipe {
 
     public getImageURL = () => {
         return this.imageURL
+    }
+
+    public getLikes = () => {
+        return this.likes
     }
 
     public getIngredients = () => {
@@ -65,6 +71,14 @@ export class Recipe {
     
     public setPreparation = (newPreparation: string) => {
         this.preparation = newPreparation
+    }
+
+    public addLike = () => {
+        this.likes += 1
+    }
+
+    public removeLike = () => {
+        this.likes -= 1
     }
 }
 

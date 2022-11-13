@@ -14,6 +14,7 @@ export class RecipeBusiness {
     public signup = async (input: ISignupInputDTO) => {
         const token = input.token
         const title = input.title
+        const likes = 0
         const description = input.description
         const imageURL = input.imageURL
         const ingredients = input.ingredients
@@ -51,6 +52,7 @@ export class RecipeBusiness {
             id,
             payload.id,
             title,
+            likes,
             description,
             imageURL,
             ingredients,
@@ -64,6 +66,11 @@ export class RecipeBusiness {
         }
 
         return response
+    }
+
+    public getRecipeById = async (id: string) => {
+        const recipeDB = await this.recipeDatabase.findById(id)
+        return recipeDB
     }
 
     public getRecipes = async (input: IGetRecipesInputDTO) => {
@@ -101,6 +108,7 @@ export class RecipeBusiness {
                 recipeDB.id,
                 recipeDB.userId,
                 recipeDB.title,
+                recipeDB.likes,
                 recipeDB.description,
                 recipeDB.imageURL,
                 recipeDB.ingredients,
@@ -234,6 +242,7 @@ export class RecipeBusiness {
             recipeDB.id,
             recipeDB.userId,
             recipeDB.title,
+            recipeDB.likes,
             recipeDB.description,
             recipeDB.imageURL,
             recipeDB.ingredients,

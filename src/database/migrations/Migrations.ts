@@ -1,4 +1,5 @@
 import { BaseDatabase } from "../BaseDatabase"
+import { LikesDatabase } from "../LikesDatabase"
 import { RecipeDatabase } from "../RecipesDatabase"
 import { UserDatabase } from "../UserDatabase"
 import { recipes, users } from "./data"
@@ -27,6 +28,7 @@ class Migrations extends BaseDatabase {
 
     createTables = async () => {
         await BaseDatabase.connection.raw(`
+        DROP TABLE IF EXISTS ${RecipeDatabase.TABLE_RECIPES};
         DROP TABLE IF EXISTS ${UserDatabase.TABLE_USERS};
         
         CREATE TABLE IF NOT EXISTS ${UserDatabase.TABLE_USERS}(
@@ -36,18 +38,24 @@ class Migrations extends BaseDatabase {
             password VARCHAR(255) NOT NULL,
             role ENUM("NORMAL", "ADMIN") DEFAULT "NORMAL" NOT NULL
         );
-
-        DROP TABLE IF EXISTS ${RecipeDatabase.TABLE_RECIPES};
         
         CREATE TABLE IF NOT EXISTS ${RecipeDatabase.TABLE_RECIPES}(
             id VARCHAR(255) PRIMARY KEY,
             userId VARCHAR(255), 
             title VARCHAR(255) NOT NULL,
+            likes INT,
             description VARCHAR(255) NOT NULL,
             imageURL VARCHAR(255) NOT NULL,
             ingredients VARCHAR(255) NOT NULL,
             preparation TEXT NOT NULL,
             FOREIGN KEY (userId) REFERENCES ${UserDatabase.TABLE_USERS}(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS ${LikesDatabase.TABLE_LIKES}(
+            userId VARCHAR(255), 
+            recipeId VARCHAR(255), 
+            FOREIGN KEY (userId) REFERENCES ${UserDatabase.TABLE_USERS}(id),
+            FOREIGN KEY (recipeId) REFERENCES ${RecipeDatabase.TABLE_RECIPES}(id)
         );
         `)
     }

@@ -1,8 +1,11 @@
 import { Router } from 'express'
+import { LikeBusiness } from '../business/LikeBusiness'
 import { RecipeBusiness } from '../business/RecipeBusiness'
 import { UserBusiness } from '../business/UserBusiness'
+import { LikeController } from '../controller/LikeController'
 import { RecipeController } from '../controller/RecipeController'
 import { UserController } from '../controller/UserController'
+import { LikesDatabase } from '../database/LikesDatabase'
 import { RecipeDatabase } from '../database/RecipesDatabase'
 import { UserDatabase } from '../database/UserDatabase'
 import { Authenticator } from '../services/Authenticator'
@@ -19,7 +22,14 @@ const recipeController = new RecipeController(
     )
 )
 
+const likeController = new LikeController( new LikeBusiness(
+    new LikesDatabase(),
+    new Authenticator,
+    new RecipeDatabase
+))
+
 recipeRouter.post("/signup", recipeController.signup)
 recipeRouter.get("/", recipeController.getRecipes)
 recipeRouter.delete("/:id", recipeController.deleteRecipe)
 recipeRouter.put("/:id", recipeController.editRecipe)
+recipeRouter.post("/like/:recipeId", likeController.setLike)
