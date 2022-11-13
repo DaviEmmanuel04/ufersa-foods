@@ -30,6 +30,7 @@ const likeController = new LikeController( new LikeBusiness(
 
 recipeRouter.post("/signup", recipeController.signup)
 recipeRouter.get("/", recipeController.getRecipes)
+recipeRouter.get("/:id", recipeController.getRecipe)
 recipeRouter.delete("/:id", recipeController.deleteRecipe)
 recipeRouter.put("/:id", recipeController.editRecipe)
 recipeRouter.post("/like/:recipeId", likeController.setLike)
