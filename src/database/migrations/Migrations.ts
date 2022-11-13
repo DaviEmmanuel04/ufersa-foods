@@ -41,11 +41,13 @@ class Migrations extends BaseDatabase {
         
         CREATE TABLE IF NOT EXISTS ${RecipeDatabase.TABLE_RECIPES}(
             id VARCHAR(255) PRIMARY KEY,
+            userId VARCHAR(255), 
             title VARCHAR(255) NOT NULL,
-            description VARCHAR(255) NOT NULL UNIQUE,
+            description VARCHAR(255) NOT NULL,
             imageURL VARCHAR(255) NOT NULL,
             ingredients VARCHAR(255) NOT NULL,
-            preparation TEXT NOT NULL
+            preparation TEXT NOT NULL,
+            FOREIGN KEY (userId) REFERENCES ${UserDatabase.TABLE_USERS}(id)
         );
         `)
     }

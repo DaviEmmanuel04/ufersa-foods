@@ -10,6 +10,7 @@ export class RecipeController {
     public signup = async (req: Request, res: Response) => {
         try {
             const input: ISignupInputDTO = {
+                token: req.headers.authorization,
                 title: req.body.title,
                 description: req.body.description,
                 imageURL: req.body.imageURL,

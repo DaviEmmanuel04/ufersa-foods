@@ -12,11 +12,22 @@ export class RecipeBusiness {
     ) {}
 
     public signup = async (input: ISignupInputDTO) => {
+        const token = input.token
         const title = input.title
         const description = input.description
         const imageURL = input.imageURL
         const ingredients = input.ingredients
         const preparation = input.preparation
+
+        if (!token) {
+            throw new Error("Token faltando")
+        }
+
+        const payload = this.authenticator.getTokenPayload(token)
+
+        if (!payload) {
+            throw new Error("Token inválido")
+        }
 
         if (!title || !description || !imageURL || !ingredients || !preparation) {
             throw new Error("Um ou mais parâmetros faltando")
@@ -38,6 +49,7 @@ export class RecipeBusiness {
 
         const recipe = new Recipe(
             id,
+            payload.id,
             title,
             description,
             imageURL,
@@ -87,6 +99,7 @@ export class RecipeBusiness {
         const recipes = recipesDB.map(recipeDB => {
             const recipe = new Recipe(
                 recipeDB.id,
+                recipeDB.userId,
                 recipeDB.title,
                 recipeDB.description,
                 recipeDB.imageURL,
@@ -203,6 +216,7 @@ export class RecipeBusiness {
 
         const recipe = new Recipe(
             recipeDB.id,
+            recipeDB.userId,
             recipeDB.title,
             recipeDB.description,
             recipeDB.imageURL,

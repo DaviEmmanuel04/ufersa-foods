@@ -1,5 +1,6 @@
 export interface IRecipeDB {
     id: string,
+    userId: string,
     title: string,
     description: string,
     imageURL: string,
@@ -10,6 +11,7 @@ export interface IRecipeDB {
 export class Recipe {
     constructor(
         private id: string,
+        private userId: string,
         private title: string,
         private description: string,
         private imageURL: string,
@@ -19,6 +21,10 @@ export class Recipe {
 
     public getId = () => {
         return this.id
+    }
+
+    public getUserId = () => {
+        return this.userId
     }
 
     public getTitle = () => {
@@ -63,6 +69,7 @@ export class Recipe {
 }
 
 export interface ISignupInputDTO {
+    token: string | undefined,
     title: string,
     description: string,
     imageURL: string,

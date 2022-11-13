@@ -7,6 +7,7 @@ export class RecipeDatabase extends BaseDatabase {
     public createRecipe = async (recipe: Recipe) => {
         const recipeDB: IRecipeDB = {
             id: recipe.getId(),
+            userId: recipe.getUserId(),
             title: recipe.getTitle(),
             description: recipe.getDescription(),
             imageURL: recipe.getImageURL(),
@@ -55,6 +56,7 @@ export class RecipeDatabase extends BaseDatabase {
     public editRecipe = async (recipe: Recipe) => {
         const recipeDB: IRecipeDB = {
             id: recipe.getId(),
+            userId: recipe.getUserId(),
             title: recipe.getTitle(),
             description: recipe.getDescription(),
             imageURL: recipe.getImageURL(),
