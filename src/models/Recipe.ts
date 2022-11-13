@@ -58,11 +58,11 @@ export class Recipe {
     public setImageURL = (newImageURL: string) => {
         this.imageURL = newImageURL
     }
-
+   
     public setIngredients = (newIngredients: string) => {
         this.ingredients = newIngredients
     }
-
+    
     public setPreparation = (newPreparation: string) => {
         this.preparation = newPreparation
     }

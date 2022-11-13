@@ -1,7 +1,7 @@
 import { RecipeDatabase } from "../database/RecipesDatabase"
 import { IGetRecipesInputDBDTO, IGetRecipesInputDTO, ISignupInputDTO, ISignupOutputDTO, Recipe } from "../models/Recipe"
+import { USER_ROLES } from "../models/User"
 import { Authenticator } from "../services/Authenticator"
-import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
 
 export class RecipeBusiness {
@@ -127,11 +127,27 @@ export class RecipeBusiness {
 
     public deleteRecipe = async (input: any) => {
         const idToDelete = input.idToDelete
+        const token = input.token
+
+        if (!token) {
+            throw new Error("Token faltando")
+        }
+
+        const payload = this.authenticator.getTokenPayload(token)
+
+        if (!payload) {
+            throw new Error("Token inválido")
+        }
+
 
         const userDB = await this.recipeDatabase.findById(idToDelete)
 
         if (!userDB) {
             throw new Error("Receita a ser deletado não encontrada")
+        }
+
+        if (userDB.userId !== payload.id || payload.role !== USER_ROLES.ADMIN) {
+            throw new Error("Somente o usuário que criou a receita ou um adm podem deletala.")
         }
 
         await this.recipeDatabase.deleteRecipe(idToDelete)
