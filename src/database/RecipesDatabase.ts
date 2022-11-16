@@ -43,8 +43,17 @@ export class RecipeDatabase extends BaseDatabase {
             .connection(RecipeDatabase.TABLE_RECIPES)
             .select()
             .where({ id })
-
+        
         return recipesDB[0]
+    }
+
+    public findByUserId = async (userId: string) => {
+        const recipesDB: IRecipeDB[] = await BaseDatabase
+            .connection(RecipeDatabase.TABLE_RECIPES)
+            .select()
+            .where({'userId': userId })
+        
+        return recipesDB
     }
 
     public deleteRecipe = async (id: string) => {

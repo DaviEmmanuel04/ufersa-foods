@@ -73,6 +73,11 @@ export class RecipeBusiness {
         return recipeDB
     }
 
+    public getRecipeByUserId = async (userId: string) => {
+        const recipeDB = await this.recipeDatabase.findByUserId(userId)
+        return recipeDB
+    }
+
     public getRecipes = async (input: IGetRecipesInputDTO) => {
         const token = input.token
         const search = input.search || ""
@@ -121,6 +126,8 @@ export class RecipeBusiness {
                 description: recipe.getDescription(),
                 ingredients: recipe.getIngredients(),
                 preparation: recipe.getPreparation(),
+                imageURL: recipe.getImageURL(),
+                likes: recipe.getLikes()
             }
 
             return recipesResponse
@@ -196,7 +203,7 @@ export class RecipeBusiness {
             throw new Error("Parâmetro 'title' inválido")
         }
 
-        if (title && title.length > 3) {
+        if (title && title.length < 3) {
             throw new Error("Parâmetro 'title' inválido")
         }
 

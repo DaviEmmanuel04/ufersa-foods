@@ -93,16 +93,8 @@ export class LikeBusiness {
         const userId = payload.id
 
         const results = await this.likeDatabase.findByUserId(userId)
-
-        const recipes = results.map(async (result) => {
-            const data = await this.recipeDatabase.findById(result.userId)
-            return data
-        })
-
-        console.log(recipes);
         
-
-        return recipes
+        return results
     }
 
 

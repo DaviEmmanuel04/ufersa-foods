@@ -75,6 +75,24 @@ export class RecipeController {
         }
     }
 
+    public getRecipeByUserId = async (req: Request, res: Response) => {
+        try {
+            const userId: string = req.params.userId
+
+            const response = await this.recipeBusiness.getRecipeByUserId(userId)
+
+            res.status(200).send(response)
+        } catch (error) {
+            console.log(error)
+            
+            if (error instanceof Error) {
+                return res.status(400).send({ message: error.message })
+            }
+
+            res.status(500).send({ message: "Erro inesperado" })
+        }
+    }
+
     public deleteRecipe = async (req: Request, res: Response) => {
         try {
             const input: any = {
